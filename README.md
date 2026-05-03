@@ -3,6 +3,7 @@
 **StudySpark** is an ultimate AI-powered study assistant built to transform passive reading into an interactive learning experience. By leveraging the advanced reasoning capabilities of the Google Gemini API, StudySpark allows students to upload their lecture notes, past papers, and syllabuses to instantly generate tailored study plans, dynamic quizzes, and deep analytical insights.
 
 It features a stunning, custom-built dark mode interface engineered directly inside Streamlit, utilizing custom JavaScript injections for fluid animations and a native Text-to-Speech engine.
+LIVE DEMO:https://canva.link/7olnuwk4txf7jsk
 DEPLOYED SITE:https://studyspark-zeeg.onrender.com/
 ---
 
