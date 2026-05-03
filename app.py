@@ -199,30 +199,33 @@ else:
     
     col1, col2, col3 = st.columns(3)
     with col1:
-        if st.button("📊 Analytics Dashboard", use_container_width=True):
+        if st.button("📊 Analytics Dashboard", use_container_width=True, type="secondary"):
             st.session_state.current_feature = "Analytics Dashboard"
     with col2:
-        if st.button("📅 Smart Planner", use_container_width=True):
+        if st.button("📅 Smart Planner", use_container_width=True, type="secondary"):
             st.session_state.current_feature = "Smart Study Planner"
     with col3:
-        if st.button("📝 Summary", use_container_width=True):
+        if st.button("📝 Summary", use_container_width=True, type="secondary"):
             st.session_state.current_feature = "Summary"
 
     col4, col5, col6 = st.columns(3)
     with col4:
-        if st.button("🎯 Important Points", use_container_width=True):
+        if st.button("🎯 Important Points", use_container_width=True, type="secondary"):
             st.session_state.current_feature = "Important Points"
     with col5:
-        if st.button("🧠 How to Study", use_container_width=True):
+        if st.button("🧠 How to Study", use_container_width=True, type="secondary"):
             st.session_state.current_feature = "How to Study"
     with col6:
-        if st.button("💡 Practice Qs", use_container_width=True):
+        if st.button("💡 Practice Qs", use_container_width=True, type="secondary"):
             st.session_state.current_feature = "Practice Questions"
             
     col7, col8, col9 = st.columns(3)
     with col7:
-        if st.button("❓ Quiz", use_container_width=True):
+        if st.button("❓ Quiz", use_container_width=True, type="secondary"):
             st.session_state.current_feature = "Quiz"
+    with col8:
+        if st.button("👨‍🏫 Smart Tutor", use_container_width=True, type="secondary"):
+            st.session_state.current_feature = "Smart Tutor"
             
     st.markdown("---")
     
@@ -341,3 +344,17 @@ else:
                 del st.session_state.quiz_data
                 st.session_state.quiz_submitted = False
                 st.rerun()
+
+    elif current_feat == "Smart Tutor":
+        st.header("👨‍🏫 Smart Tutor")
+        if "chat_history" not in st.session_state:
+            st.session_state.chat_history = []
+        for msg in st.session_state.chat_history:
+            st.chat_message(msg["role"]).write(msg["content"])
+        if prompt := st.chat_input("Ask a question about your notes..."):
+            st.session_state.chat_history.append({"role": "user", "content": prompt})
+            st.chat_message("user").write(prompt)
+            with st.spinner("Thinking..."):
+                resp = generate_ai_response(f"You are a Smart Tutor. Answer the user's question based on the provided context.\nUser Question: {prompt}", st.session_state.full_context)
+                st.session_state.chat_history.append({"role": "assistant", "content": resp})
+                st.chat_message("assistant").write(resp)
