@@ -11,65 +11,100 @@ from utils.ingestion import process_pdf, process_image
 load_dotenv()
 client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
-st.set_page_config(page_title="DecodeX Assistant", page_icon="🚀", layout="wide")
+st.set_page_config(page_title="StudySpark", page_icon="✨", layout="wide")
 
 st.markdown("""
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif !important;
+    }
+
+    /* Gradient Headers for a premium AI feel */
+    h1, h2 {
+        background: linear-gradient(90deg, #38BDF8, #818CF8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        width: max-content;
+        max-width: 100%;
+    }
+
     /* Spotlight card styling applied to secondary buttons */
-    .stButton > button[data-testid="baseButton-secondary"] {
-        position: relative;
-        border-radius: 1.5rem;
-        border: 1px solid #333;
-        background-color: #111;
-        padding: 2rem 1rem;
-        height: 120px;
-        overflow: hidden;
+    button[kind="secondary"], 
+    [data-testid="stBaseButton-secondary"], 
+    [data-testid="baseButton-secondary"] {
+        position: relative !important;
+        border-radius: 1.2rem !important;
+        border: 1px solid #334155 !important;
+        background-color: #1E293B !important;
+        padding: 2rem !important;
+        height: 120px !important;
+        overflow: hidden !important;
         --mouse-x: 50%;
         --mouse-y: 50%;
-        --spotlight-color: rgba(0, 229, 255, 0.2);
-        color: white;
-        font-size: 1.1rem;
-        font-weight: bold;
-        transition: transform 0.2s, border-color 0.2s;
+        --spotlight-color: rgba(99, 102, 241, 0.15);
+        color: #F8FAFC !important;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        transition: transform 0.2s, border-color 0.2s !important;
     }
 
-    .stButton > button[data-testid="baseButton-secondary"]::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 80%);
-        opacity: 0;
-        transition: opacity 0.5s ease;
-        pointer-events: none;
-        z-index: 0;
+    button[kind="secondary"]::before, 
+    [data-testid="stBaseButton-secondary"]::before, 
+    [data-testid="baseButton-secondary"]::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 80%) !important;
+        opacity: 0 !important;
+        transition: opacity 0.5s ease !important;
+        pointer-events: none !important;
+        z-index: 0 !important;
     }
 
-    .stButton > button[data-testid="baseButton-secondary"]:hover::before,
-    .stButton > button[data-testid="baseButton-secondary"]:focus-within::before {
-        opacity: 0.8;
+    button[kind="secondary"]:hover::before,
+    [data-testid="stBaseButton-secondary"]:hover::before,
+    [data-testid="baseButton-secondary"]:hover::before,
+    button[kind="secondary"]:focus-within::before,
+    [data-testid="stBaseButton-secondary"]:focus-within::before,
+    [data-testid="baseButton-secondary"]:focus-within::before {
+        opacity: 1 !important;
     }
     
-    .stButton > button[data-testid="baseButton-secondary"]:hover {
-        transform: translateY(-4px);
-        border-color: #555;
+    button[kind="secondary"]:hover,
+    [data-testid="stBaseButton-secondary"]:hover,
+    [data-testid="baseButton-secondary"]:hover {
+        transform: translateY(-4px) !important;
+        border-color: #6366F1 !important;
     }
 
-    .stButton > button[data-testid="baseButton-secondary"] > div {
-        position: relative;
-        z-index: 1;
+    button[kind="secondary"] > div,
+    [data-testid="stBaseButton-secondary"] > div,
+    [data-testid="baseButton-secondary"] > div {
+        position: relative !important;
+        z-index: 1 !important;
     }
 
     /* Keep primary buttons standard but nice */
-    .stButton > button[data-testid="baseButton-primary"] {
-        border-radius: 8px;
-        transition: all 0.2s ease-in-out;
+    button[kind="primary"],
+    [data-testid="stBaseButton-primary"],
+    [data-testid="baseButton-primary"] {
+        border-radius: 8px !important;
+        background-color: #6366F1 !important;
+        color: white !important;
+        border: none !important;
+        transition: all 0.2s ease-in-out !important;
     }
-    .stButton > button[data-testid="baseButton-primary"]:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    button[kind="primary"]:hover,
+    [data-testid="stBaseButton-primary"]:hover,
+    [data-testid="baseButton-primary"]:hover {
+        transform: translateY(-2px) !important;
+        background-color: #4F46E5 !important;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -78,19 +113,31 @@ components.html(
     """
     <script>
     const parentDoc = window.parent.document;
-    if (!parentDoc.spotlightInitialized) {
-        parentDoc.addEventListener('mousemove', e => {
-            const target = e.target.closest('.stButton > button[data-testid="baseButton-secondary"]');
-            if (target) {
-                const rect = target.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                target.style.setProperty('--mouse-x', `${x}px`);
-                target.style.setProperty('--mouse-y', `${y}px`);
+    
+    function updateSpotlight() {
+        const buttons = parentDoc.querySelectorAll('button[kind="secondary"], [data-testid="stBaseButton-secondary"], [data-testid="baseButton-secondary"]');
+        buttons.forEach(btn => {
+            if (!btn.spotlightInitialized) {
+                btn.addEventListener('mousemove', e => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    btn.style.setProperty('--mouse-x', `${x}px`);
+                    btn.style.setProperty('--mouse-y', `${y}px`);
+                });
+                btn.spotlightInitialized = true;
             }
         });
-        parentDoc.spotlightInitialized = true;
     }
+
+    // Run once immediately
+    updateSpotlight();
+
+    // Set up an observer to attach listeners to new buttons if they appear
+    const observer = new MutationObserver(mutations => {
+        updateSpotlight();
+    });
+    observer.observe(parentDoc.body, { childList: true, subtree: true });
     </script>
     """,
     height=0,
@@ -144,7 +191,7 @@ def process_file_parallel(uploaded_file):
     os.remove(temp_path)
     return text
 
-st.title("🛠️ DecodeX Control Panel")
+st.title("✨ StudySpark")
 st.markdown("---")
 
 if "full_context" not in st.session_state:
