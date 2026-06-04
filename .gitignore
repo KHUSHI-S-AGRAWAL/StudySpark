@@ -36,3 +36,4 @@ dist-ssr
    # Local IDE or system files
    .DS_Store
    .vscode/
+.env
