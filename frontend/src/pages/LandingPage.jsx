@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import './features/MagicRings.css'; // Path to your concentric rings background animation
 import TextPressure from './features/TextPressure'; 
 import TextType from './features/TextType'; 
-import bookIcon from './book_icon.png'; // Imports your custom asset file directly
 
 const SUBTITLES = [
   "Generate practice quizzes instantly",
@@ -56,7 +55,7 @@ function LandingPage({ onGetStarted }) {
           filter: 'drop-shadow(0 10px 25px rgba(99,102,241,0.25))' 
         }}>
           <img 
-            src={bookIcon} 
+            src="/book_icon.png"
             alt="StudySpark Icon" 
             style={{ width: '100%', height: 'auto', display: 'block' }} 
           />
