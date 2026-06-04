@@ -17,10 +17,13 @@ load_dotenv()
 
 app = FastAPI(title="StudySpark Core API")
 
-# Strict CORS mapping matching Vite port local address channels
+# 🚀 STEP 5 UPDATE: Added allowance for your live production Vercel address domain
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://studyspark.vercel.app"  # 🔗 Change this string to your exact Vercel deployment link!
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
