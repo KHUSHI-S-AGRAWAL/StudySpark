@@ -3,6 +3,8 @@ import json
 import re
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import List, Optional
 from google import genai
@@ -24,7 +26,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-google_api_key = os.getenv("GOOGLE_API_KEY")
+# Robust key retrieval: Checks standard Google client config and Render environment strings
+google_api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("api_key")
 client = genai.Client(api_key=google_api_key) if google_api_key else None
 
 class FeatureRequest(BaseModel):
@@ -196,3 +199,15 @@ async def generate_dynamic_quiz(request: FeatureRequest):
         raise HTTPException(status_code=500, detail="Failed to parse quiz JSON from model response.")
 
     return {"quiz": quiz_items}
+
+# 🚀 SERVE FRONTEND HOOKS FOR ONE LINK MONOREPO HOUSING
+# This mounts the production JS/CSS assets folder and maps index.html to standard browser paths.
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+
+if os.path.exists(static_dir):
+    app.mount("/assets", StaticFiles(directory=os.path.join(static_dir, "assets")), name="assets")
+
+    @app.get("/{catchall:path}")
+    async def serve_frontend(catchall: str):
+        # Gracefully paths client subpages back to index.html for React Router to parse cleanly
+        return FileResponse(os.path.join(static_dir, "index.html"))
