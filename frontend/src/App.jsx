@@ -1,8 +1,8 @@
 import { useState } from "react";
 import LandingPage from "./pages/LandingPage";
-import DocumentUpload from "./pages/DocumentUpload.jsx";
-import DashboardGrid from "./pages/DashboardGrid.jsx";
-import Navbar from "./components/Navbar.jsx";
+import DocumentUpload from "./pages/DocumentUpload";
+import DashboardGrid from "./pages/DashboardGrid";
+import Navbar from "./components/Navbar";
 
 function App() {
   const [currentStep, setCurrentStep] = useState('landing');
