@@ -1,0 +1,112 @@
+.icon-btns {
+  display: grid;
+  grid-gap: 3em 2.5em;
+  grid-template-columns: repeat(3, 1fr);
+  margin: auto;
+  padding: 1.5em 0;
+  overflow: visible;
+  justify-items: center;
+}
+
+.icon-btn {
+  background-color: transparent;
+  outline: none;
+  position: relative;
+  width: 14.5em; 
+  height: 6.5em; 
+  perspective: 40em;
+  transform-style: preserve-3d;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.icon-btn__back,
+.icon-btn__front {
+  border-radius: 1.5em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition:
+    opacity 0.3s cubic-bezier(0.83, 0, 0.17, 1),
+    transform 0.3s cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+.icon-btn__back {
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+  display: block;
+  transform: rotate(6deg);
+  transform-origin: 100% 100%;
+  will-change: transform;
+  opacity: 0.45;
+}
+
+.icon-btn__front {
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 0 0.12em rgba(255, 255, 255, 0.12) inset;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+  box-sizing: border-box;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.icon-btn__icon {
+  font-size: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+  transition: transform 0.3s cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+.icon-btn__label {
+  font-size: 14px;
+  font-weight: 800;
+  color: #cbd5e1;
+  text-align: left;
+  white-space: normal;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  pointer-events: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.icon-btn:focus-visible .icon-btn__back,
+.icon-btn:hover .icon-btn__back {
+  transform: rotate(10deg) translate3d(-0.4em, -0.4em, 0.4em);
+  opacity: 0.85;
+}
+
+.icon-btn:focus-visible .icon-btn__front,
+.icon-btn:hover .icon-btn__front {
+  transform: translate3d(0, 0, 2.5em);
+  background-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 0.12em rgba(255, 255, 255, 0.35) inset;
+}
+
+.icon-btn:focus-visible .icon-btn__icon,
+.icon-btn:hover .icon-btn__icon {
+  transform: scale(1.1) rotate(-5deg);
+}
+
+/* 🚀 DYNAMIC IN-CARD TEXT GLOW ACCENT CHANNELS */
+.icon-btn:focus-visible .icon-btn__label,
+.icon-btn:hover .icon-btn__label {
+  color: var(--hover-glow); 
+}
+
+@media (min-width: 900px) {
+  .icon-btns {
+    grid-template-columns: repeat(3, 1fr); 
+  }
+}

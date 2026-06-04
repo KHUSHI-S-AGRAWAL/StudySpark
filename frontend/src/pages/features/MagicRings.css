@@ -1,0 +1,58 @@
+/* Base container holding the rings dead-center */
+.magic-rings-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: all; /* CHANGE: Allows the container to catch mouse hover events */
+  z-index: 0;
+}
+
+/* Base style for every ring element */
+.ring {
+  position: absolute;
+  border: 1.5px solid rgba(168, 85, 247, 0.45);
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.2), inset 0 0 20px rgba(168, 85, 247, 0.15);
+  animation: pulseWideRing 5s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  opacity: 0;
+  box-sizing: border-box;
+  transition: border-color 0.5s ease, box-shadow 0.5s ease; /* Smooth transition when mouse enters/leaves */
+}
+
+/* ✨ INTERACTIVE HOVER EFFECTS:
+  When a user moves their mouse anywhere over the background canvas, 
+  the rings will glow brighter, shift their colors dynamically, and accelerate their pulse rate!
+*/
+.magic-rings-container:hover .ring {
+  border-color: rgba(192, 132, 252, 0.8); /* Brighter purple on hover */
+  box-shadow: 0 0 35px rgba(99, 102, 241, 0.45), inset 0 0 25px rgba(168, 85, 247, 0.3);
+  animation-duration: 3.5s; /* Speeds up the ripple pulse waves */
+}
+
+/* Slightly altering colors of individual lines on hover for a chromatic effect */
+.magic-rings-container:hover .ring-2 { border-color: rgba(56, 189, 248, 0.7); } /* Cyan pop */
+.magic-rings-container:hover .ring-4 { border-color: rgba(99, 102, 241, 0.7); } /* High indigo glow */
+.magic-rings-container:hover .ring-6 { border-color: rgba(236, 72, 153, 0.5); } /* Outer hot pink fade */
+
+/* Keep your existing ring dimensions and keyframes intact */
+.ring-1 { width: 30vw; height: 30vw; animation-delay: 0s; }
+.ring-2 { width: 45vw; height: 45vw; animation-delay: 0.8s; border-color: rgba(99, 102, 241, 0.4); }
+.ring-3 { width: 60vw; height: 60vw; animation-delay: 1.6s; }
+.ring-4 { width: 75vw; height: 75vw; animation-delay: 2.4s; border-color: rgba(99, 102, 241, 0.3); }
+.ring-5 { width: 90vw; height: 90vw; animation-delay: 3.2s; }
+.ring-6 { width: 105vw; height: 105vw; animation-delay: 4s; border-color: rgba(236, 72, 153, 0.15); }
+
+@keyframes pulseWideRing {
+  0% { transform: scale(0.6); opacity: 0; }
+  10% { opacity: 0.8; }
+  80% { opacity: 0.3; }
+  100% { transform: scale(1.15); opacity: 0; }
+}

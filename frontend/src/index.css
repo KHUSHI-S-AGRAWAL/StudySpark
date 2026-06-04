@@ -1,0 +1,90 @@
+:root {
+  --text: #9ca3af;
+  --text-h: #f3f4f6;
+  --bg: #070a13; /* Deep theme canvas background color */
+  --border: #2e303a;
+  
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font: 18px/145% var(--sans);
+  color-scheme: dark;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #070a13;
+  overflow-x: hidden;
+}
+
+/* FORCE CORE CENTERING LAYER:
+  Targets your mounting entry div directly to remove any top-left alignment restrictions.
+*/
+#root {
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Layout adjustments for typography elements */
+h1 {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.05em;
+}
+
+p {
+  margin: 0;
+}
+
+/* Background canvas loop wrapper layout */
+.magic-rings-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Core styling properties for concentric circles */
+.ring {
+  position: absolute;
+  border: 1.5px solid rgba(168, 85, 247, 0.45);
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.2), inset 0 0 20px rgba(168, 85, 247, 0.15);
+  animation: pulseWideRing 5s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  opacity: 0;
+  box-sizing: border-box;
+}
+
+.ring-1 { width: 30vw; height: 30vw; animation-delay: 0s; }
+.ring-2 { width: 45vw; height: 45vw; animation-delay: 0.8s; border-color: rgba(99, 102, 241, 0.4); }
+.ring-3 { width: 60vw; height: 60vw; animation-delay: 1.6s; }
+.ring-4 { width: 75vw; height: 75vw; animation-delay: 2.4s; border-color: rgba(99, 102, 241, 0.3); }
+.ring-5 { width: 90vw; height: 90vw; animation-delay: 3.2s; }
+.ring-6 { width: 105vw; height: 105vw; animation-delay: 4s; border-color: rgba(236, 72, 153, 0.15); }
+
+@keyframes pulseWideRing {
+  0% { transform: scale(0.6); opacity: 0; }
+  10% { opacity: 0.8; }
+  80% { opacity: 0.3; }
+  100% { transform: scale(1.15); opacity: 0; }
+}
