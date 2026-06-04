@@ -36,7 +36,7 @@ function Navbar({ onHome }) {
           filter: 'drop-shadow(0 4px 10px rgba(99,102,241,0.25))' 
         }}>
           <img 
-            src={bookIcon} 
+            src="/book_icon.png"
             alt="StudySpark Logo" 
             style={{ width: '100%', height: 'auto', display: 'block' }} 
           />
