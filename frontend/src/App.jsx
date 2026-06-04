@@ -1,5 +1,5 @@
 import { useState } from "react";
-import LandingPage from "./pages/LandingPage.jsx";
+import LandingPage from "./pages/LandingPage";
 import DocumentUpload from "./pages/DocumentUpload.jsx";
 import DashboardGrid from "./pages/DashboardGrid.jsx";
 import Navbar from "./components/Navbar.jsx";
