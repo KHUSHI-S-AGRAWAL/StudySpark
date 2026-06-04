@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const API = axios.create({
-  // 🚀 Relative root path! Requests will hit Vercel, and Vercel will reroute them to Python
-  baseURL: '', 
+  // 🚀 Paste your actual live Render backend URL here!
+  baseURL: 'https://YOUR-STUDYSPARK-BACKEND.onrender.com', 
   headers: {
     'Content-Type': 'application/json',
   },

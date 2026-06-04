@@ -22,7 +22,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://studyspark.vercel.app"  # 🔗 Allowed production frontend link domain
+        "https://study-spark-blue.vercel.app/"  # 🔗 Allowed production frontend link domain
     ],
     allow_credentials=True,
     allow_methods=["*"],
