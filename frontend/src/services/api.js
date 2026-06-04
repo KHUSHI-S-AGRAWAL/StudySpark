@@ -1,10 +1,8 @@
 import axios from 'axios';
 
 const API = axios.create({
-  // 🚀 RELATIVE API CONFIGURATION:
-  // Leaving this empty lets the application automatically default to whatever domain name
-  // it is deployed on. No more absolute port switches!
-  baseURL: '', 
+  // Swap this URL out with your actual Render web service link once it's created!
+  baseURL: 'https://studyspark-backend.onrender.com', 
   headers: {
     'Content-Type': 'application/json',
   },
