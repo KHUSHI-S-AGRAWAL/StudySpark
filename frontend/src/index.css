@@ -19,6 +19,315 @@ body {
   overflow-x: hidden;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+img, svg, canvas, iframe, picture {
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  font: inherit;
+}
+
+.landing-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 30px 24px 48px;
+}
+
+.landing-card {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 640px;
+  padding: 60px 24px 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.landing-header {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 0 12px 0;
+  overflow: hidden;
+}
+
+.landing-subtitle {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.landing-description {
+  font-size: 15px;
+  color: #94a3b8;
+  line-height: 1.75;
+  font-weight: 500;
+  max-width: 540px;
+  margin: 0 0 44px 0;
+  letter-spacing: 0.01em;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.action-wrapper {
+  width: 100%;
+  max-width: 420px;
+  padding: 0 8px;
+}
+
+.page-button {
+  width: 100%;
+  padding: 16px 0;
+  background-color: #38bdf8;
+  color: #070a13;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  box-shadow: 0 8px 24px -4px rgba(56, 189, 248, 0.35), 0 0 20px rgba(56, 189, 248, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-button:hover {
+  background-color: #0ea5e9;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -4px rgba(14, 165, 233, 0.5), 0 0 30px rgba(14, 165, 233, 0.25);
+}
+
+.page-button:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.upload-shell {
+  width: 100%;
+  min-height: 80vh;
+  padding: 105px 24px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+.upload-panel {
+  width: 100%;
+  max-width: 520px;
+}
+
+.upload-card {
+  width: 100%;
+  padding: 40px;
+  text-align: center;
+  background-color: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+  box-sizing: border-box;
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.upload-block {
+  text-align: left;
+}
+
+.upload-dropzone {
+  position: relative;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.upload-file-icon {
+  font-size: 32px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.upload-file-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 8px;
+  color: #94a3b8;
+}
+
+.upload-file-name.has-file {
+  color: #ffffff;
+}
+
+.upload-info {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+
+.error-box {
+  font-size: 13px;
+  font-weight: 600;
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  padding: 14px;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.dashboard-shell {
+  width: 100%;
+  padding: 110px 24px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  box-sizing: border-box;
+}
+
+.dashboard-intro {
+  text-align: center;
+}
+
+.dashboard-intro h2 {
+  font-size: 32px;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+}
+
+.dashboard-intro p {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 0;
+  font-weight: 500;
+}
+
+.dashboard-grid {
+  width: 100%;
+  max-width: 940px;
+  overflow: visible;
+}
+
+.navbar-shell {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  z-index: 50;
+  background: transparent;
+  padding: 0 16px;
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.navbar-inner span {
+  display: inline-block;
+}
+
+.navbar-home {
+  position: absolute;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 8px 16px;
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.navbar-home:hover {
+  background-color: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.3);
+  color: #ffffff;
+}
+
+@media (max-width: 900px) {
+  .navbar-home {
+    position: static;
+    margin-bottom: 10px;
+  }
+
+  .navbar-shell {
+    justify-content: flex-start;
+    height: auto;
+    padding: 16px 16px 12px;
+  }
+
+  .landing-card {
+    padding: 48px 18px 0 18px;
+  }
+
+  .landing-description {
+    margin-bottom: 32px;
+  }
+
+  .upload-shell {
+    padding: 90px 16px 32px;
+  }
+
+  .dashboard-shell {
+    padding: 90px 16px 40px;
+  }
+
+  .dashboard-grid {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .landing-card {
+    padding: 34px 14px 0 14px;
+  }
+
+  .action-wrapper {
+    max-width: 100%;
+    padding: 0;
+  }
+}
+
 /* FORCE CORE CENTERING LAYER:
   Targets your mounting entry div directly to remove any top-left alignment restrictions.
 */

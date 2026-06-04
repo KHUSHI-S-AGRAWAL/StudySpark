@@ -39,19 +39,9 @@ function DashboardGrid({ data }) {
   ];
 
   return (
-    <div style={{
-      width: '100%',
-      paddingTop: '110px',
-      paddingBottom: '60px',
-      fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      boxSizing: 'border-box',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: '40px'
-    }}>
+    <div className="dashboard-shell">
       
-      <div style={{ textAlign: 'center' }}>
+      <div className="dashboard-intro">
         <h2 style={{ fontSize: '32px', fontWeight: '800', color: '#ffffff', margin: '0 0 8px 0', letterSpacing: '-0.02em' }}>
           Choose a Feature
         </h2>
@@ -61,7 +51,7 @@ function DashboardGrid({ data }) {
       </div>
 
       {/* Expanded 3D Glass Layout Grid Container Matrix */}
-      <div style={{ width: '100%', maxWidth: '940px', overflow: 'visible' }}>
+      <div className="dashboard-grid">
         <GlassIcons items={featureItems} />
       </div>
 

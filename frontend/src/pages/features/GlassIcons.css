@@ -12,8 +12,10 @@
   background-color: transparent;
   outline: none;
   position: relative;
-  width: 14.5em; 
-  height: 6.5em; 
+  width: 100%;
+  max-width: 100%;
+  min-height: 6.5em;
+  aspect-ratio: 2.4 / 1;
   perspective: 40em;
   transform-style: preserve-3d;
   -webkit-tap-highlight-color: transparent;
@@ -105,8 +107,24 @@
   color: var(--hover-glow); 
 }
 
-@media (min-width: 900px) {
+@media (max-width: 1024px) {
   .icon-btns {
-    grid-template-columns: repeat(3, 1fr); 
+    grid-gap: 2.5rem 1.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .icon-btns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .icon-btns {
+    grid-template-columns: 1fr;
+  }
+
+  .icon-btn {
+    min-height: 5.5em;
   }
 }

@@ -2,43 +2,12 @@ import bookIcon from '../pages/book_icon.png'; // Imports your custom asset file
 
 function Navbar({ onHome }) {
   return (
-    <nav style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '80px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      boxSizing: 'border-box',
-      zIndex: 50,
-      background: 'transparent',
-      userSelect: 'none',
-      fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-    }}>
+    <nav className="navbar-shell">
       
       {/* Home button aligned left */}
       <button 
         onClick={onHome}
-        style={{
-          position: 'absolute',
-          left: '24px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          backgroundColor: 'rgba(30, 41, 59, 0.5)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          borderRadius: '10px',
-          padding: '8px 16px',
-          color: '#94a3b8',
-          fontSize: '14px',
-          fontWeight: '600',
-          cursor: 'pointer',
-          transition: 'all 0.2s ease',
-        }}
+        className="navbar-home"
         onMouseOver={(e) => {
           e.target.style.backgroundColor = 'rgba(56, 189, 248, 0.12)';
           e.target.style.borderColor = 'rgba(56, 189, 248, 0.3)';
@@ -56,12 +25,7 @@ function Navbar({ onHome }) {
       {/* Center-aligned Title Brand Layout */}
       <div 
         onClick={onHome}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
-          cursor: 'pointer'
-        }}
+        className="navbar-inner"
       >
         {/* CONSISTENT GRAPHIC BRANDING: Replaced emoji with your custom book asset image */}
         <div style={{ 

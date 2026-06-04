@@ -26,7 +26,7 @@ function LandingPage({ onGetStarted }) {
   }, []);
 
   return (
-    <div style={{ position: 'relative', width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+    <div className="landing-page">
       
       {/* BACKGROUND GRAPHICS CONTAINER */}
       <div className="magic-rings-container">
@@ -39,7 +39,7 @@ function LandingPage({ onGetStarted }) {
       </div>
 
       {/* CENTRAL TYPOGRAPHY CARD CONTENT */}
-      <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '640px', padding: '60px 24px 0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+      <div className="landing-card">
         
         {/* CUSTOM IMAGE ICON: 
             Replaced the standard unicode emoji string with an HTML img asset link wrapper 
@@ -63,7 +63,7 @@ function LandingPage({ onGetStarted }) {
         </div>
         
         {/* Dynamic Text Pressure Header Title */}
-        <div style={{ width: '100%', maxWidth: '520px', margin: '0 0 12px 0', overflow: 'hidden' }}>
+        <div className="landing-header">
           <TextPressure
             text="StudySpark"
             flex={true}
@@ -78,7 +78,7 @@ function LandingPage({ onGetStarted }) {
         </div>
         
         {/* Text Type Subtitle Tracker */}
-        <div style={{ height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
+        <div className="landing-subtitle">
           <TextType
             text={SUBTITLES}
             typingSpeed={65}
@@ -91,30 +91,17 @@ function LandingPage({ onGetStarted }) {
         </div>
 
         {/* Platform Description Paragraph */}
-        <p style={{ fontSize: '15px', color: '#94a3b8', lineHeight: '1.75', fontWeight: '500', maxWidth: '540px', margin: '0 0 44px 0', letterSpacing: '0.01em', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }}>
+        <p className="landing-description">
           Transform your notes and syllabus into an interactive learning experience. Upload 
           your documents to instantly generate analytics, smart summaries, practice quizzes, 
           and get personalized video recommendations.
         </p>
 
         {/* Wide Sky-Blue Action Pill Button */}
-        <div style={{ width: '100%', maxWidth: '420px', padding: '0 8px' }}>
+        <div className="action-wrapper">
           <button
             onClick={onGetStarted}
-            style={{
-              width: '100%',
-              padding: '16px 0',
-              backgroundColor: '#38bdf8',
-              color: '#070a13',
-              border: 'none',
-              borderRadius: '14px',
-              fontSize: '15px',
-              fontWeight: '800',
-              cursor: 'pointer',
-              letterSpacing: '0.02em',
-              boxShadow: '0 8px 24px -4px rgba(56, 189, 248, 0.35), 0 0 20px rgba(56, 189, 248, 0.15)',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-            }}
+            className="page-button"
             onMouseOver={(e) => {
               e.target.style.backgroundColor = '#0ea5e9';
               e.target.style.transform = 'translateY(-2px)';
