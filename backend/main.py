@@ -17,21 +17,29 @@ load_dotenv()
 
 app = FastAPI(title="StudySpark Core API")
 
-# 🚀 STEP 5 UPDATE: Added allowance for your live production Vercel address domain
+# 🚀 CORS MIDDLEWARE SETUP
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://studyspark.vercel.app"  # 🔗 Change this string to your exact Vercel deployment link!
+        "https://studyspark.vercel.app"  # 🔗 Allowed production frontend link domain
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Robust key retrieval: Checks standard Google client config and Render environment strings
+# 🛠️ BULLETPROOF GENAI CLIENT INITIALIZATION
 google_api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("api_key")
-client = genai.Client(api_key=google_api_key) if google_api_key else None
+
+try:
+    if google_api_key:
+        client = genai.Client(api_key=google_api_key)
+    else:
+        client = genai.Client()
+except Exception as init_err:
+    print(f"GenAI SDK Initialization Warning: {str(init_err)}")
+    client = None
 
 class FeatureRequest(BaseModel):
     feature: str
@@ -141,7 +149,6 @@ async def run_feature(request: FeatureRequest):
 
         except Exception as parse_error:
             print(f"Fallback triggered. Error tracing log: {str(parse_error)}")
-            # Custom fallback dashboard dataset matching your project needs
             fallback_structure = {
                 "topics": [
                     {"name": "AI for Flood Prediction & Risk Modeling", "frequency": 8, "importance_score": 95, "in_syllabus": True},
@@ -204,7 +211,6 @@ async def generate_dynamic_quiz(request: FeatureRequest):
     return {"quiz": quiz_items}
 
 # 🚀 SERVE FRONTEND HOOKS FOR ONE LINK MONOREPO HOUSING
-# This mounts the production JS/CSS assets folder and maps index.html to standard browser paths.
 static_dir = os.path.join(os.path.dirname(__file__), "static")
 
 if os.path.exists(static_dir):
@@ -212,5 +218,4 @@ if os.path.exists(static_dir):
 
     @app.get("/{catchall:path}")
     async def serve_frontend(catchall: str):
-        # Gracefully paths client subpages back to index.html for React Router to parse cleanly
         return FileResponse(os.path.join(static_dir, "index.html"))
