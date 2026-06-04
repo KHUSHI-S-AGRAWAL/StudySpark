@@ -1,4 +1,4 @@
-import bookIcon from '../public/book_icon.png'; // Imports your custom asset file directly to ensure branding consistency
+<img src="/book_icon.png" alt="Logo" /> // Imports your custom asset file directly to ensure branding consistency
 
 function Navbar({ onHome }) {
   return (
