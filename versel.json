@@ -1,0 +1,21 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://studyspark-api.onrender.com/api/:path*"
+    },
+    {
+      "source": "/docs",
+      "destination": "https://studyspark-api.onrender.com/docs"
+    },
+    {
+      "source": "/openapi.json",
+      "destination": "https://studyspark-api.onrender.com/openapi.json"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "frontend/index.html"
+    }
+  ]
+}

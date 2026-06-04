@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const API = axios.create({
-  // Swap this URL out with your actual Render web service link once it's created!
-  baseURL: 'https://studyspark-backend.onrender.com', 
+  // 🚀 Relative root path! Requests will hit Vercel, and Vercel will reroute them to Python
+  baseURL: '', 
   headers: {
     'Content-Type': 'application/json',
   },
