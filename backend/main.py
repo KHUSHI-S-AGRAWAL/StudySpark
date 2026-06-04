@@ -149,6 +149,7 @@ async def run_feature(request: FeatureRequest):
 
         except Exception as parse_error:
             print(f"Fallback triggered. Error tracing log: {str(parse_error)}")
+            # Custom fallback dashboard dataset matching your project needs
             fallback_structure = {
                 "topics": [
                     {"name": "AI for Flood Prediction & Risk Modeling", "frequency": 8, "importance_score": 95, "in_syllabus": True},
@@ -219,3 +220,9 @@ if os.path.exists(static_dir):
     @app.get("/{catchall:path}")
     async def serve_frontend(catchall: str):
         return FileResponse(os.path.join(static_dir, "index.html"))
+
+# ⚓ DYNAMIC PORT BINDING LOOP FOR RENDER PRODUCTION ENVIRONMENTS
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
