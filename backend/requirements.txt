@@ -31,3 +31,10 @@ typing_extensions==4.15.0
 urllib3==2.7.0
 uvicorn==0.47.0
 websockets==16.0
+fastapi
+uvicorn
+pydantic
+google-genai
+python-dotenv
+pypdf
+langchain-community
