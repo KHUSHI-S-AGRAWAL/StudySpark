@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 import './features/MagicRings.css'; // Path to your concentric rings background animation
 import TextPressure from './features/TextPressure'; 
 import TextType from './features/TextType'; 
-<img src="/book_icon.png" alt="StudySpark Icon" /> // Imports your custom asset file directly
+
+// 📚 NATIVE REACT MODULE IMPORT
+// This forces Vite to compile, hash, and move the asset into your production build folder automatically
+import bookLogo from '../assets/book_icon.png';
 
 const SUBTITLES = [
   "Generate practice quizzes instantly",
@@ -42,8 +45,8 @@ function LandingPage({ onGetStarted }) {
       <div className="landing-card">
         
         {/* CUSTOM IMAGE ICON: 
-            Replaced the standard unicode emoji string with an HTML img asset link wrapper 
-            while preserving the identical absolute centering constraints.
+            Updated to reference the compiled JavaScript module object variable 
+            while safely maintaining your absolute design layout parameters.
         */}
         <div style={{ 
           position: 'absolute', 
@@ -56,7 +59,7 @@ function LandingPage({ onGetStarted }) {
           filter: 'drop-shadow(0 10px 25px rgba(99,102,241,0.25))' 
         }}>
           <img 
-            src="/book_icon.png"
+            src={bookLogo} 
             alt="StudySpark Icon" 
             style={{ width: '100%', height: 'auto', display: 'block' }} 
           />
