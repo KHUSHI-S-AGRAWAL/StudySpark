@@ -219,11 +219,19 @@ if os.path.exists(static_dir):
     # 1. Mount the core JS/CSS asset builds
     app.mount("/assets", StaticFiles(directory=os.path.join(static_dir, "assets")), name="assets")
 
-    # 🎨 2. EXPLICIT ROUTING HANDLERS FOR ROOT-LEVEL BRAND ASSETS
+    # 🎨 2. EXPLICIT ROUTING HANDLERS FOR ROOT-LEVEL & COMPILED BRAND ASSETS
     @app.get("/book_icon.png")
-    @app.get("/assets/book_icon-6P5gnfzH.png")  # 🚀 Catches the compiled hashed image filename from Vite's bundle
-    async def get_logo():
-        return FileResponse(os.path.join(static_dir, "book_icon.png"), media_type="image/png")
+    @app.get("/assets/{filename}")
+    async def get_logo(filename: Optional[str] = None):
+        # Catch any root asset calls or automated Vite compiled hashes pointing to the brand logo
+        if filename is None or "book_icon" in filename:
+            return FileResponse(os.path.join(static_dir, "book_icon.png"), media_type="image/png")
+        
+        # Safe fallback system context verification for standard structural static builds
+        file_path = os.path.join(static_dir, "assets", filename)
+        if os.path.exists(file_path):
+            return FileResponse(file_path)
+        raise HTTPException(status_code=404, detail="Asset not found")
 
     @app.get("/favicon.svg")
     async def get_favicon():
