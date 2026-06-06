@@ -22,7 +22,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://study-spark-blue.vercel.app"  # 🔗 Allowed production frontend link domain (Trailing slash removed for strict match)
+        "https://study-spark-blue.vercel.app"  # 🔗 Allowed production frontend link domain
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -149,7 +149,6 @@ async def run_feature(request: FeatureRequest):
 
         except Exception as parse_error:
             print(f"Fallback triggered. Error tracing log: {str(parse_error)}")
-            # Custom fallback dashboard dataset matching your project needs
             fallback_structure = {
                 "topics": [
                     {"name": "AI for Flood Prediction & Risk Modeling", "frequency": 8, "importance_score": 95, "in_syllabus": True},
@@ -183,7 +182,6 @@ async def run_feature(request: FeatureRequest):
     if request.syllabus_context:
         full_prompt += f"\n\nSyllabus Context: {request.syllabus_context[:5000]}"
 
-    # Using gemini-1.5-pro here acts as an excellent safeguard against gemini-2.5-flash server capacity issues
     response = client.models.generate_content(model="gemini-1.5-pro", contents=full_prompt)
     return {"feature": request.feature, "result": response.text}
 
@@ -216,22 +214,13 @@ async def generate_dynamic_quiz(request: FeatureRequest):
 static_dir = os.path.join(os.path.dirname(__file__), "static")
 
 if os.path.exists(static_dir):
-    # 1. Mount the core JS/CSS asset builds
+    # 1. Mount the core JS/CSS asset builds (Vite builds everything directly into here)
     app.mount("/assets", StaticFiles(directory=os.path.join(static_dir, "assets")), name="assets")
 
-    # 🎨 2. EXPLICIT ROUTING HANDLERS FOR ROOT-LEVEL & COMPILED BRAND ASSETS
+    # 🎨 2. EXPLICIT ROUTING HANDLERS FOR ROOT-LEVEL BRAND ASSETS
     @app.get("/book_icon.png")
-    @app.get("/assets/{filename}")
-    async def get_logo(filename: Optional[str] = None):
-        # Catch any root asset calls or automated Vite compiled hashes pointing to the brand logo
-        if filename is None or "book_icon" in filename:
-            return FileResponse(os.path.join(static_dir, "book_icon.png"), media_type="image/png")
-        
-        # Safe fallback system context verification for standard structural static builds
-        file_path = os.path.join(static_dir, "assets", filename)
-        if os.path.exists(file_path):
-            return FileResponse(file_path)
-        raise HTTPException(status_code=404, detail="Asset not found")
+    async def get_logo():
+        return FileResponse(os.path.join(static_dir, "book_icon.png"), media_type="image/png")
 
     @app.get("/favicon.svg")
     async def get_favicon():
