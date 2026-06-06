@@ -22,7 +22,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://study-spark-blue.vercel.app/"  # 🔗 Allowed production frontend link domain
+        "https://study-spark-blue.vercel.app"  # 🔗 Allowed production frontend link domain (Trailing slash removed for strict match)
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -183,7 +183,8 @@ async def run_feature(request: FeatureRequest):
     if request.syllabus_context:
         full_prompt += f"\n\nSyllabus Context: {request.syllabus_context[:5000]}"
 
-    response = client.models.generate_content(model="gemini-2.5-flash", contents=full_prompt)
+    # Using gemini-1.5-pro here acts as an excellent safeguard against gemini-2.5-flash server capacity issues
+    response = client.models.generate_content(model="gemini-1.5-pro", contents=full_prompt)
     return {"feature": request.feature, "result": response.text}
 
 @app.post("/api/feature/quiz")
@@ -191,7 +192,7 @@ async def generate_dynamic_quiz(request: FeatureRequest):
     prompt = "Generate 5 Multiple Choice Questions based on the context. Respond strictly in valid JSON format as a list of dictionaries. Do not wrap in markdown code blocks. Each dictionary must have: 'question', 'options' (list of 4 strings), 'answer' (exact string of correct option), 'explanation'."
     full_prompt = f"{prompt}\n\nContext: {request.full_context[:15000]}"
     
-    response = client.models.generate_content(model="gemini-2.5-flash", contents=full_prompt)
+    response = client.models.generate_content(model="gemini-1.5-pro", contents=full_prompt)
     resp_text = response.text.strip()
     
     if resp_text.startswith("```"):
@@ -215,10 +216,24 @@ async def generate_dynamic_quiz(request: FeatureRequest):
 static_dir = os.path.join(os.path.dirname(__file__), "static")
 
 if os.path.exists(static_dir):
+    # 1. Mount the core JS/CSS asset builds
     app.mount("/assets", StaticFiles(directory=os.path.join(static_dir, "assets")), name="assets")
 
+    # 🎨 2. EXPLICIT ROUTING HANDLERS FOR ROOT-LEVEL BRAND ASSETS
+    @app.get("/book_icon.png")
+    async def get_logo():
+        return FileResponse(os.path.join(static_dir, "book_icon.png"), media_type="image/png")
+
+    @app.get("/favicon.svg")
+    async def get_favicon():
+        return FileResponse(os.path.join(static_dir, "favicon.svg"), media_type="image/svg+xml")
+
+    # 3. Clean catch-all fallback for single-page routing mechanics (SPA)
     @app.get("/{catchall:path}")
     async def serve_frontend(catchall: str):
+        # Prevent files with extensions (like missing images) from getting back index.html text
+        if "." in catchall:
+            raise HTTPException(status_code=404, detail="Asset file not found")
         return FileResponse(os.path.join(static_dir, "index.html"))
 
 # ⚓ DYNAMIC PORT BINDING LOOP FOR RENDER PRODUCTION ENVIRONMENTS
