@@ -221,6 +221,7 @@ if os.path.exists(static_dir):
 
     # 🎨 2. EXPLICIT ROUTING HANDLERS FOR ROOT-LEVEL BRAND ASSETS
     @app.get("/book_icon.png")
+    @app.get("/assets/book_icon-6P5gnfzH.png")  # 🚀 Catches the compiled hashed image filename from Vite's bundle
     async def get_logo():
         return FileResponse(os.path.join(static_dir, "book_icon.png"), media_type="image/png")
 
