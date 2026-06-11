@@ -103,7 +103,7 @@ async def run_feature(request: FeatureRequest):
         try:
             # Enforce dynamic object parsing parameters via GenAI SDK types
             response = client.models.generate_content(
-                model="gemini-1.5-flash",
+                model="gemini-2.5-flash",
                 contents=prompt,
                 config=types.GenerateContentConfig(
                     response_mime_type="application/json",
@@ -182,7 +182,8 @@ async def run_feature(request: FeatureRequest):
     if request.syllabus_context:
         full_prompt += f"\n\nSyllabus Context: {request.syllabus_context[:5000]}"
 
-    response = client.models.generate_content(model="gemini-1.5-pro", contents=full_prompt)
+    # Fixed syntax constraint: explicitly pass params as keyword arguments using 'model' and 'contents'
+    response = client.models.generate_content(model="gemini-2.5-flash", contents=full_prompt)
     return {"feature": request.feature, "result": response.text}
 
 @app.post("/api/feature/quiz")
@@ -190,7 +191,8 @@ async def generate_dynamic_quiz(request: FeatureRequest):
     prompt = "Generate 5 Multiple Choice Questions based on the context. Respond strictly in valid JSON format as a list of dictionaries. Do not wrap in markdown code blocks. Each dictionary must have: 'question', 'options' (list of 4 strings), 'answer' (exact string of correct option), 'explanation'."
     full_prompt = f"{prompt}\n\nContext: {request.full_context[:15000]}"
     
-    response = client.models.generate_content(model="gemini-1.5-pro", contents=full_prompt)
+    # Fixed syntax constraint: explicitly use keyword parameters
+    response = client.models.generate_content(model="gemini-2.5-flash", contents=full_prompt)
     resp_text = response.text.strip()
     
     if resp_text.startswith("```"):
