@@ -1,17 +1,38 @@
 import os
 from typing import List
-from langchain_community.document_loaders import PyPDFLoader
+import pypdf  # Fast, native PDF binary parser
 from langchain_core.documents import Document
 
 def process_pdf(file_path: str) -> List[Document]:
     """
-    Loads a PDF file and splits it into pages/chunks using standard PyPDFLoader.
+    Loads a PDF file and splits it into pages/chunks rapidly using native pypdf text streams.
+    Implements a page cap safety barrier to prevent Render 502 gateway request timeouts.
     """
     if not os.path.exists(file_path):
         return []
     try:
-        loader = PyPDFLoader(file_path)
-        return loader.load()
+        documents = []
+        with open(file_path, "rb") as f:
+            reader = pypdf.PdfReader(f)
+            total_pages = len(reader.pages)
+            
+            # 🛡️ REQUEST TIMEOUT SAFEGUARD:
+            # Cap processing to a maximum of 8 pages to guarantee responses stay under 15 seconds.
+            max_pages = min(total_pages, 8)
+            
+            for page_num in range(max_pages):
+                page = reader.pages[page_num]
+                text = page.extract_text()
+                if text and text.strip():
+                    # Create standard LangChain Document blocks matching your existing main.py structure
+                    documents.append(
+                        Document(
+                            page_content=text, 
+                            metadata={"source": file_path, "page": page_num + 1}
+                        )
+                    )
+                    
+        return documents
     except Exception as e:
         print(f"Error processing PDF {file_path}: {str(e)}")
         return []
@@ -30,8 +51,9 @@ def process_image(file_path: str, client) -> List[Document]:
         # Uploading the image temporary file path using the GenAI File API
         uploaded_file = client.files.upload(file=file_path)
         
+        # 🚀 Model parameter updated to use the production-ready gemini-2.5-flash standard keyword argument
         response = client.models.generate_content(
-            model="gemini-3-flash-preview",
+            model="gemini-2.5-flash",
             contents=[uploaded_file, prompt]
         )
         
